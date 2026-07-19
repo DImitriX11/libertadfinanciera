@@ -148,6 +148,11 @@
   .hero-mini-ic.in{background:var(--good-soft);color:var(--good);} .hero-mini-ic.out{background:var(--surface-3);color:var(--ink-2);}
   .hero-mini-lbl{font-size:12px;color:var(--ink-muted);font-weight:500;} .hero-mini-val{font-size:17px;font-weight:650;font-variant-numeric:tabular-nums;}
   .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;} @media (max-width:980px){.kpi-grid{grid-template-columns:repeat(2,1fr);}} @media (max-width:520px){.kpi-grid{grid-template-columns:1fr;}}
+  .month-nav{display:flex;align-items:center;gap:8px;}
+  .month-nav .lbl{font-size:14px;font-weight:640;letter-spacing:-0.01em;min-width:130px;text-align:center;font-variant-numeric:tabular-nums;}
+  .month-nav .nav-arrow{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);cursor:pointer;font-size:18px;line-height:1;transition:background .12s;}
+  .month-nav .nav-arrow:hover{background:var(--surface-3);color:var(--ink);}
+  .month-tag{font-size:11px;font-weight:600;color:var(--ink-muted);}
   .kpi{position:relative;overflow:hidden;} .kpi-top{display:flex;align-items:center;justify-content:space-between;}
   .kpi-label{font-size:12.5px;color:var(--ink-2);font-weight:540;}
   .kpi-value{font-size:27px;font-weight:680;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;margin-top:8px;} .kpi-value .unit{font-size:13px;font-weight:500;color:var(--ink-muted);}
@@ -290,20 +295,28 @@
           <div class="hero-spark" id="hero-spark"></div>
         </div>
         <div class="hero-right">
-          <div class="hero-mini"><div class="hero-mini-l"><div class="hero-mini-ic in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></div><div><div class="hero-mini-lbl">Ingresos · este mes</div><div class="hero-mini-val" id="hero-income">$0.00</div></div></div></div>
-          <div class="hero-mini"><div class="hero-mini-l"><div class="hero-mini-ic out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg></div><div><div class="hero-mini-lbl">Gastos · este mes</div><div class="hero-mini-val" id="hero-expense">$0.00</div></div></div></div>
+          <div class="hero-mini"><div class="hero-mini-l"><div class="hero-mini-ic in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></div><div><div class="hero-mini-lbl" id="hero-income-lbl">Ingresos · este mes</div><div class="hero-mini-val" id="hero-income">$0.00</div></div></div></div>
+          <div class="hero-mini"><div class="hero-mini-l"><div class="hero-mini-ic out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg></div><div><div class="hero-mini-lbl" id="hero-expense-lbl">Gastos · este mes</div><div class="hero-mini-val" id="hero-expense">$0.00</div></div></div></div>
           <div class="hero-mini"><div class="hero-mini-l"><div class="hero-mini-ic out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg></div><div><div class="hero-mini-lbl">Suscripciones · al mes</div><div class="hero-mini-val" id="hero-subs">$0.00</div></div></div></div>
         </div>
       </div>
+      <div class="toolbar" style="margin-top:2px">
+        <div class="month-nav">
+          <button class="nav-arrow" id="month-prev" aria-label="Mes anterior">‹</button>
+          <div class="lbl" id="month-label">—</div>
+          <button class="nav-arrow" id="month-next" aria-label="Mes siguiente">›</button>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="month-today" style="display:none">Volver a este mes</button>
+      </div>
       <div class="kpi-grid">
-        <div class="card kpi"><div class="kpi-top"><span class="kpi-label">Ingresos este mes</span></div><div class="kpi-value" id="kpi-income">$0.00</div><div class="kpi-foot"><span class="kpi-delta flat" id="kpi-income-delta">—</span></div></div>
-        <div class="card kpi"><div class="kpi-top"><span class="kpi-label">Gastos este mes</span></div><div class="kpi-value" id="kpi-expense">$0.00</div><div class="kpi-foot"><span class="kpi-delta flat" id="kpi-expense-delta">—</span></div></div>
+        <div class="card kpi"><div class="kpi-top"><span class="kpi-label" id="kpi-income-lbl">Ingresos del mes</span></div><div class="kpi-value" id="kpi-income">$0.00</div><div class="kpi-foot"><span class="kpi-delta flat" id="kpi-income-delta">—</span></div></div>
+        <div class="card kpi"><div class="kpi-top"><span class="kpi-label" id="kpi-expense-lbl">Gastos del mes</span></div><div class="kpi-value" id="kpi-expense">$0.00</div><div class="kpi-foot"><span class="kpi-delta flat" id="kpi-expense-delta">—</span></div></div>
         <div class="card kpi"><div class="kpi-top"><span class="kpi-label">Tasa de ahorro</span></div><div class="kpi-value" id="kpi-rate">—</div><div class="kpi-foot"><span class="chip neutral" id="kpi-rate-chip"><span class="dot"></span>Sin datos</span></div></div>
         <div class="card kpi"><div class="kpi-top"><span class="kpi-label">Libertad Financiera</span><span class="chip gold" id="kpi-freedom-streak"><span class="dot"></span>0 días</span></div><div class="kpi-value" id="kpi-freedom">$0.00</div><div class="kpi-foot"><span class="kpi-sub" id="kpi-freedom-sub">Tu fondo, un centavo a la vez</span></div></div>
       </div>
       <div class="grid-2">
-        <div class="card"><div class="card-head"><div><div class="card-title">Gastos por categoría</div></div><div class="card-hint">Este mes</div></div><div id="category-chart"></div></div>
-        <div class="card"><div class="card-head"><div><div class="card-title">Ingresos vs. gastos</div></div><div class="card-hint">Últimos 6 meses</div></div><div class="legend"><span class="lg"><span class="sw" style="background:var(--c2)"></span>Ingresos</span><span class="lg"><span class="sw" style="background:var(--c8)"></span>Gastos</span></div><div class="chart-wrap" id="monthly-wrap"></div></div>
+        <div class="card"><div class="card-head"><div><div class="card-title">Gastos por categoría</div></div><div class="card-hint" id="cat-chart-hint">Este mes</div></div><div id="category-chart"></div></div>
+        <div class="card"><div class="card-head"><div><div class="card-title">Ingresos vs. gastos</div></div><div class="card-hint" id="monthly-hint">Últimos 6 meses</div></div><div class="legend"><span class="lg"><span class="sw" style="background:var(--c2)"></span>Ingresos</span><span class="lg"><span class="sw" style="background:var(--c8)"></span>Gastos</span></div><div class="chart-wrap" id="monthly-wrap"></div></div>
       </div>
       <div class="freedom-teaser">
         <div class="ft-l"><div class="ft-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 7.1L22 9.3l-5.5 4.9L18 22l-6-3.9L6 22l1.5-7.8L2 9.3l7.4-.2z"/></svg></div><div><div class="ft-val" id="teaser-freedom">$0.00</div><div class="ft-sub" id="teaser-sub">Aporta hoy, aunque sea 1 centavo</div></div></div>
@@ -318,7 +331,10 @@
           <select id="f-cat"><option value="todas">Todas las categorías</option></select>
           <select id="f-range"><option value="mes">Este mes</option><option value="90">Últimos 90 días</option><option value="todo">Todo el historial</option></select>
         </div>
-        <button class="btn btn-primary btn-sm" data-act="add-mov"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nuevo movimiento</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" id="manage-cats"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2.4"/></svg>Categorías</button>
+          <button class="btn btn-primary btn-sm" data-act="add-mov"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nuevo movimiento</button>
+        </div>
       </div>
       <div class="card table-card">
         <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Descripción</th><th>Categoría</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody id="mov-tbody"></tbody></table></div>
@@ -383,6 +399,20 @@
 
 <dialog id="confirm-dialog"><div class="dh"><h2 id="confirm-title">¿Confirmar?</h2></div><div class="db" id="confirm-body"></div><div class="df"><div class="right"><button type="button" class="btn" id="confirm-cancel">Cancelar</button><button type="button" class="btn btn-danger" id="confirm-ok" style="border-color:var(--danger-soft);background:var(--danger-soft)">Eliminar</button></div></div></dialog>
 
+<dialog id="cat-dialog">
+  <div class="dh"><h2>Categorías de gasto</h2><button type="button" class="icon-btn icon-btn-plain" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="db">
+    <form id="cat-add-form" style="display:flex;gap:8px;align-items:flex-end">
+      <div class="field" style="flex:1"><label for="cat-new-name">Nueva categoría</label><input type="text" id="cat-new-name" placeholder="Ej: Mascotas" maxlength="24" /></div>
+      <button type="submit" class="btn btn-primary" style="height:37px">Agregar</button>
+    </form>
+    <div class="form-err" id="cat-err" style="min-height:0"></div>
+    <div id="cat-list" style="display:flex;flex-direction:column;gap:2px"></div>
+    <div class="card-hint">Las categorías base no se pueden borrar. Al borrar una tuya, sus gastos pasan a "Otros".</div>
+  </div>
+  <div class="df"><div class="right"><button type="button" class="btn btn-primary" data-close>Listo</button></div></div>
+</dialog>
+
 <script>
 (function () {
   "use strict";
@@ -397,13 +427,22 @@
   function hide(node) { node.classList.add("hidden"); }
 
   /* ---------- Domain data ---------- */
-  var CATEGORIES = [
+  var DEFAULT_CATEGORIES = [
     { key: "vivienda", label: "Vivienda", v: "--c1" }, { key: "comida", label: "Comida", v: "--c2" },
     { key: "transporte", label: "Transporte", v: "--c3" }, { key: "entretenimiento", label: "Entretenimiento", v: "--c4" },
     { key: "salud", label: "Salud", v: "--c5" }, { key: "suscripciones", label: "Suscripciones", v: "--c6" },
     { key: "negocio", label: "Negocio / MUTANT", v: "--c7" }, { key: "otros", label: "Otros", v: "--c8" }
   ];
-  var CAT_BY = {}; CATEGORIES.forEach(function (c) { CAT_BY[c.key] = c; });
+  // CATEGORIES = base + personalizadas (de state.customCategories). Se reconstruye cuando cambian.
+  var CATEGORIES = DEFAULT_CATEGORIES.slice(), CAT_BY = {};
+  function rebuildCategories() {
+    var custom = (state && state.customCategories) ? state.customCategories : [];
+    CATEGORIES = DEFAULT_CATEGORIES.concat(custom.map(function (c, i) {
+      return { key: c.key, label: c.label, v: c.v || CAT_VARS[(DEFAULT_CATEGORIES.length + i) % CAT_VARS.length], custom: true };
+    }));
+    CAT_BY = {}; CATEGORIES.forEach(function (c) { CAT_BY[c.key] = c; });
+  }
+  DEFAULT_CATEGORIES.forEach(function (c) { CAT_BY[c.key] = c; }); // poblar antes de que exista state
   var JARS = [
     { key: "necesidades", label: "Necesidades básicas", desc: "Renta, comida, servicios", v: "--c1" },
     { key: "inversiones", label: "Inversiones pasivas", desc: "Genera ingreso mientras duermes", v: "--c2" },
@@ -426,7 +465,7 @@
   function humanDate(iso) { return new Date(iso + "T00:00:00").toLocaleDateString("es-EC", { day: "2-digit", month: "short", year: "numeric" }); }
 
   function defaultState() {
-    return { movements: [], subscriptions: [], theme: "auto",
+    return { movements: [], subscriptions: [], theme: "auto", customCategories: [],
       allocation: { basis: "auto", manualIncome: 0, percentages: Object.assign({}, DEFAULT_PCT) },
       freedomJar: { total: 0, contributions: [] } };
   }
@@ -435,11 +474,25 @@
     s.movements = Array.isArray(p.movements) ? p.movements : [];
     s.subscriptions = Array.isArray(p.subscriptions) ? p.subscriptions : [];
     s.theme = p.theme || "auto";
+    s.customCategories = Array.isArray(p.customCategories) ? p.customCategories : [];
     if (p.allocation) { s.allocation.basis = p.allocation.basis || "auto"; s.allocation.manualIncome = p.allocation.manualIncome || 0; s.allocation.percentages = Object.assign({}, DEFAULT_PCT, p.allocation.percentages || {}); }
     if (p.freedomJar) { s.freedomJar.total = p.freedomJar.total || 0; s.freedomJar.contributions = Array.isArray(p.freedomJar.contributions) ? p.freedomJar.contributions : []; }
     return s;
   }
   var state = defaultState();
+
+  // Mes que se muestra en el Resumen (YYYY-MM). Empieza en el mes actual; no se guarda.
+  var viewMonth = new Date().toISOString().slice(0, 7);
+  function shiftViewMonth(delta) {
+    var d = new Date(viewMonth + "-01T00:00:00"); d.setMonth(d.getMonth() + delta);
+    viewMonth = d.toISOString().slice(0, 7);
+  }
+  function monthLabel(ym) {
+    var d = new Date(ym + "-01T00:00:00");
+    var s = d.toLocaleDateString("es-EC", { month: "long", year: "numeric" });
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+  function isCurrentMonth(ym) { return ym === new Date().toISOString().slice(0, 7); }
 
   /* ---------- Persistence: local cache + cloud ---------- */
   function cacheKey() { return "lf-cache-" + (user ? user.id : "anon"); }
@@ -568,6 +621,57 @@
   document.querySelectorAll('[data-act="add-sub"]').forEach(function (b) { b.addEventListener("click", function () { openSub(null); }); });
   el("f-type").addEventListener("change", renderMovements); el("f-cat").addEventListener("change", renderMovements); el("f-range").addEventListener("change", renderMovements);
 
+  /* ---------- Selector de mes ---------- */
+  el("month-prev").addEventListener("click", function () { shiftViewMonth(-1); renderResumen(); });
+  el("month-next").addEventListener("click", function () { shiftViewMonth(1); renderResumen(); });
+  el("month-today").addEventListener("click", function () { viewMonth = new Date().toISOString().slice(0, 7); renderResumen(); });
+
+  /* ---------- Gestión de categorías ---------- */
+  function refreshCategorySelects() {
+    var fc = el("f-cat").value, mc = el("mov-cat").value, sc = el("sub-cat").value;
+    fillCats(el("f-cat"), true); fillCats(el("mov-cat"), false); fillCats(el("sub-cat"), false);
+    if (fc === "todas" || CAT_BY[fc]) el("f-cat").value = fc;
+    if (CAT_BY[mc]) el("mov-cat").value = mc;
+    if (CAT_BY[sc]) el("sub-cat").value = sc;
+  }
+  function renderCatList() {
+    el("cat-list").innerHTML = CATEGORIES.map(function (c) {
+      var del = c.custom
+        ? '<button class="icon-btn icon-btn-plain" data-del-cat="' + c.key + '" aria-label="Borrar" style="color:var(--danger)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></button>'
+        : '<span class="chip neutral" style="font-size:10px">base</span>';
+      return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border-2)">' +
+        '<span class="sw" style="width:10px;height:10px;border-radius:3px;background:var(' + c.v + ');flex:none"></span>' +
+        '<span style="flex:1;font-size:13.5px;font-weight:520">' + escapeHtml(c.label) + '</span>' + del + '</div>';
+    }).join("");
+    el("cat-list").querySelectorAll("[data-del-cat]").forEach(function (b) {
+      b.addEventListener("click", function () { deleteCategory(b.getAttribute("data-del-cat")); });
+    });
+  }
+  function slugify(s) { return "cat-" + s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 20) + "-" + uid().slice(-4); }
+  el("cat-add-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = el("cat-new-name").value.trim();
+    el("cat-err").textContent = "";
+    if (!name) { el("cat-err").textContent = "Escribe un nombre."; return; }
+    var exists = CATEGORIES.some(function (c) { return c.label.toLowerCase() === name.toLowerCase(); });
+    if (exists) { el("cat-err").textContent = "Ya existe una categoría con ese nombre."; return; }
+    state.customCategories.push({ key: slugify(name), label: name, v: CAT_VARS[(DEFAULT_CATEGORIES.length + state.customCategories.length) % CAT_VARS.length] });
+    save(); rebuildCategories(); refreshCategorySelects(); renderCatList(); renderAll();
+    el("cat-new-name").value = "";
+  });
+  function deleteCategory(key) {
+    var cat = CAT_BY[key]; if (!cat || !cat.custom) return;
+    var count = state.movements.filter(function (m) { return m.category === key; }).length;
+    var msg = count > 0 ? 'Los ' + count + ' gasto(s) con esta categoría pasarán a "Otros".' : "Esta categoría no tiene gastos.";
+    confirmDo("Borrar \"" + cat.label + "\"", msg, "Borrar", function () {
+      state.movements.forEach(function (m) { if (m.category === key) m.category = "otros"; });
+      state.subscriptions.forEach(function (s) { if (s.category === key) s.category = "otros"; });
+      state.customCategories = state.customCategories.filter(function (c) { return c.key !== key; });
+      save(); rebuildCategories(); refreshCategorySelects(); renderCatList(); renderAll();
+    });
+  }
+  el("manage-cats").addEventListener("click", function () { renderCatList(); el("cat-err").textContent = ""; el("cat-new-name").value = ""; el("cat-dialog").showModal(); });
+
   /* ---------- Allocation ---------- */
   var basisSeg = el("basis-seg"), basisInput = el("basis-input"); tSetup(basisSeg);
   function syncBasis() { var man = state.allocation.basis === "manual"; basisInput.style.display = man ? "inline-block" : "none"; if (document.activeElement !== basisInput) basisInput.value = state.allocation.manualIncome || ""; }
@@ -610,20 +714,33 @@
     var last = pts[pts.length - 1], gid = "g" + Math.random().toString(36).slice(2, 7);
     return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" fill="none"><defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(' + cv + ')" stop-opacity="0.22"/><stop offset="1" stop-color="var(' + cv + ')" stop-opacity="0"/></linearGradient></defs><path d="' + d + ' L' + w + ' ' + h + ' L0 ' + h + ' Z" fill="url(#' + gid + ')"/><path d="' + d + '" stroke="var(' + cv + ')" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="2.6" fill="var(' + cv + ')"/></svg>';
   }
-  function last6() { var o = [], now = new Date(); for (var i = 5; i >= 0; i--) { var d = new Date(now.getFullYear(), now.getMonth() - i, 1); o.push({ ym: d.toISOString().slice(0, 7), label: monthFmt.format(d) }); } return o; }
+  function monthsEndingAt(ym) { var o = [], base = new Date(ym + "-01T00:00:00"); for (var i = 5; i >= 0; i--) { var d = new Date(base.getFullYear(), base.getMonth() - i, 1); o.push({ ym: d.toISOString().slice(0, 7), label: monthFmt.format(d) }); } return o; }
   function monthTotals(ym) { var inc = 0, exp = 0; state.movements.forEach(function (m) { if (ymOf(m.date) !== ym) return; if (m.type === "ingreso") inc += m.amount; else exp += m.amount; }); return { income: inc, expense: exp }; }
 
   function renderResumen() {
-    var now = new Date(), ym = now.toISOString().slice(0, 7), prev = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().slice(0, 7);
+    var cur = isCurrentMonth(viewMonth);
+    var ym = viewMonth, prevD = new Date(viewMonth + "-01T00:00:00"); prevD.setMonth(prevD.getMonth() - 1);
+    var prev = prevD.toISOString().slice(0, 7);
     var t = monthTotals(ym), pt = monthTotals(prev);
+    // --- Selector de mes ---
+    el("month-label").textContent = monthLabel(viewMonth);
+    el("month-today").style.display = cur ? "none" : "inline-flex";
+    var mShort = new Date(viewMonth + "-01T00:00:00").toLocaleDateString("es-EC", { month: "short" });
+    el("hero-income-lbl").textContent = "Ingresos · " + (cur ? "este mes" : mShort);
+    el("hero-expense-lbl").textContent = "Gastos · " + (cur ? "este mes" : mShort);
+    el("kpi-income-lbl").textContent = cur ? "Ingresos este mes" : "Ingresos · " + monthLabel(viewMonth);
+    el("kpi-expense-lbl").textContent = cur ? "Gastos este mes" : "Gastos · " + monthLabel(viewMonth);
+    el("cat-chart-hint").textContent = cur ? "Este mes" : monthLabel(viewMonth);
+    // --- Balance (siempre total, histórico) ---
     var bal = 0; state.movements.forEach(function (m) { bal += m.type === "ingreso" ? m.amount : -m.amount; });
     var hb = el("hero-balance"); hb.textContent = fmt.format(bal); hb.classList.toggle("neg", bal < 0);
     var net = t.income - t.expense;
-    el("hero-meta").innerHTML = state.movements.length ? '<span><b>' + state.movements.length + '</b> movimiento' + (state.movements.length === 1 ? "" : "s") + ' en total</span><span>Neto del mes <b style="color:var(--' + (net >= 0 ? "good" : "danger") + ')">' + (net >= 0 ? "+" : "") + fmt.format(net) + '</b></span>' : '<span>Aún no registras movimientos.</span>';
-    var months = last6(), before = 0, firstYm = months[0].ym;
+    el("hero-meta").innerHTML = state.movements.length ? '<span><b>' + state.movements.length + '</b> movimiento' + (state.movements.length === 1 ? "" : "s") + ' en total</span><span>Neto de ' + (cur ? "este mes" : monthLabel(viewMonth)) + ' <b style="color:var(--' + (net >= 0 ? "good" : "danger") + ')">' + (net >= 0 ? "+" : "") + fmt.format(net) + '</b></span>' : '<span>Aún no registras movimientos.</span>';
+    var months = monthsEndingAt(viewMonth), before = 0, firstYm = months[0].ym;
     state.movements.forEach(function (m) { if (ymOf(m.date) < firstYm) before += m.type === "ingreso" ? m.amount : -m.amount; });
     var run = before, series = months.map(function (mm) { var tt = monthTotals(mm.ym); run += tt.income - tt.expense; return run; });
     el("hero-spark").innerHTML = state.movements.length ? sparkline(series, "--accent", 300, 44) : "";
+    el("monthly-hint").textContent = cur ? "Últimos 6 meses" : "6 meses hasta " + mShort;
     el("hero-income").textContent = fmt.format(t.income); el("hero-expense").textContent = fmt.format(t.expense);
     var active = state.subscriptions.filter(function (s) { return s.active; });
     var msub = active.reduce(function (s, x) { return s + (x.frequency === "mensual" ? x.amount : x.amount / 12); }, 0);
@@ -706,7 +823,7 @@
     grid.querySelectorAll("[data-pay]").forEach(function (b) { b.addEventListener("click", function () { markPaid(b.getAttribute("data-pay")); }); });
   }
 
-  function renderAll() { renderResumen(); renderMovements(); renderSubs(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); }
+  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); }
 
   /* ============ AUTH ============ */
   var mode = "signin";
