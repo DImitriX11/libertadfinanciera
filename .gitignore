@@ -1,0 +1,15 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencias (por si en el futuro agregas build)
+node_modules/
+npm-debug.log*
+
+# Editores
+.vscode/
+.idea/
+
+# Netlify
+.netlify/
