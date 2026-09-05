@@ -228,6 +228,30 @@
   .flog{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;padding:9px 0;border-bottom:1px solid var(--border-2);color:var(--ink-2);} .flog:last-child{border-bottom:none;} .flog .amt{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:620;}
   .freedom-teaser{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:18px 22px;border:1px solid color-mix(in srgb,var(--gold) 26%,var(--border));background:radial-gradient(120% 160% at 0% 50%,var(--gold-soft),transparent 46%),var(--surface);}
   .ft-l{display:flex;align-items:center;gap:15px;} .ft-ic{width:44px;height:44px;border-radius:12px;background:var(--gold-soft);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:none;} .ft-val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;} .ft-sub{font-size:12px;color:var(--ink-muted);margin-top:2px;}
+
+  /* ---------- Metas de ahorro ---------- */
+  .goal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+  .goal-card{display:flex;flex-direction:column;gap:12px;}
+  .goal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;} .goal-id{display:flex;align-items:center;gap:11px;}
+  .goal-avatar{width:38px;height:38px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--gold);background:var(--gold-soft);}
+  .goal-name{font-size:14.5px;font-weight:640;} .goal-note{font-size:11.5px;color:var(--ink-muted);margin-top:1px;}
+  .goal-amt{font-size:15px;color:var(--ink-2);} .goal-amt b{font-size:20px;font-weight:680;color:var(--ink);}
+  .goal-track{height:7px;border-radius:4px;background:var(--surface-3);overflow:hidden;} .goal-fill{height:100%;border-radius:4px;background:var(--gold);transition:width .3s;}
+  .goal-track.done .goal-fill{background:var(--good);}
+  .goal-sub{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--ink-muted);}
+  .goal-quick{display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--border-2);padding-top:12px;align-items:center;}
+  .goal-quick .btn-sm{padding:5px 10px;} .goal-quick input{width:76px;padding:6px 8px;font-size:12.5px;}
+
+  /* ---------- Tareas pendientes ---------- */
+  .task-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+  .task-card{display:flex;flex-direction:column;gap:10px;} .task-card.done{opacity:.55;}
+  .task-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+  .task-check{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--accent-ink);cursor:pointer;flex:none;transition:background .12s,border-color .12s;margin-top:1px;}
+  .task-check.on{background:var(--accent);border-color:var(--accent);}
+  .task-body{display:flex;align-items:flex-start;gap:11px;}
+  .task-title{font-size:14px;font-weight:600;line-height:1.4;} .task-card.done .task-title{text-decoration:line-through;color:var(--ink-muted);}
+  .task-note{font-size:11.5px;color:var(--ink-muted);margin-top:2px;line-height:1.4;}
+  .task-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--border-2);padding-top:11px;}
   dialog{border:none;border-radius:16px;padding:0;width:min(500px,94vw);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-lg);}
   dialog::backdrop{background:rgba(10,9,8,0.5);backdrop-filter:blur(3px);} dialog[open]{animation:pop .2s cubic-bezier(.2,.7,.2,1);}
   @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98);}to{opacity:1;transform:none;}}
@@ -285,6 +309,9 @@
     <button class="nav-item" data-tab="distribucion"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6.5 3.5"/></svg>Distribución</button>
     <button class="nav-item" data-tab="suscripciones"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 4v4h-4"/></svg>Suscripciones</button>
     <button class="nav-item" data-tab="cuentas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>Cuentas</button>
+    <div class="rail-label">Planificacion</div>
+    <button class="nav-item" data-tab="metas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Metas</button>
+    <button class="nav-item" data-tab="tareas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1.3 1.3L7.5 5"/><path d="M4 12l1.3 1.3L7.5 11"/><path d="M4 18l1.3 1.3L7.5 17"/></svg>Tareas</button>
     <div class="rail-foot">
       <div class="rail-user"><div class="ava" id="user-ava">•</div><div class="em" id="user-email">—</div></div>
       <button class="btn btn-ghost btn-sm" id="signout-btn" style="justify-content:center">Cerrar sesión</button>
@@ -362,8 +389,8 @@
     </section>
 
     <section class="view" id="view-distribucion">
-      <div class="card"><div class="card-head"><div><div class="card-title">Base de ingreso a repartir</div><div class="card-hint" style="margin-top:4px">Sobre qué monto se calcula cada porcentaje</div></div></div>
-        <div class="basis-controls"><div class="seg" id="basis-seg"><button data-value="auto" class="on">Ingresos de este mes</button><button data-value="manual">Monto manual</button></div><input type="number" id="basis-input" min="0" step="0.01" placeholder="0.00" style="display:none;width:150px" /><div class="basis-amt" style="margin-left:auto">Repartiendo <b id="basis-value">$0.00</b></div></div>
+      <div class="card"><div class="card-head"><div><div class="card-title">Base de ganancia a repartir</div><div class="card-hint" style="margin-top:4px">Ganancia = ingresos menos gastos de este mes. Sobre eso se calcula cada porcentaje, no sobre lo que ingresa en bruto.</div></div></div>
+        <div class="basis-controls"><div class="seg" id="basis-seg"><button data-value="auto" class="on">Ganancia de este mes</button><button data-value="manual">Monto manual</button></div><input type="number" id="basis-input" min="0" step="0.01" placeholder="0.00" style="display:none;width:150px" /><div class="basis-amt" style="margin-left:auto">Repartiendo <b id="basis-value">$0.00</b></div></div>
       </div>
       <div class="card"><div class="card-head"><div><div class="card-title">Cómo repartes cada ingreso</div><div class="card-hint" style="margin-top:4px">Ajusta los porcentajes; los montos se recalculan solos</div></div><button class="btn btn-ghost btn-sm" id="reset-pct">Restablecer</button></div>
         <div class="stack" id="jar-stack"></div><div class="jars" id="jar-list"></div>
@@ -397,6 +424,18 @@
       <div class="toolbar"><div class="card-title" style="font-size:14px">Tus cuentas y tarjetas</div><button class="btn btn-primary btn-sm" data-act="add-acc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva cuenta</button></div>
       <div class="acc-grid" id="acc-grid"></div>
       <div class="empty" id="acc-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg></div><div class="empty-title">Sin cuentas registradas</div><div class="empty-sub">Agrega tus tarjetas de crédito y cuentas bancarias para llevar el control de cuánto debes y cuánto tienes.</div><button class="btn btn-primary btn-sm" data-act="add-acc">Agregar cuenta</button></div>
+    </section>
+
+    <section class="view" id="view-metas">
+      <div class="toolbar"><div class="card-title" style="font-size:14px">Tus metas de ahorro</div><button class="btn btn-primary btn-sm" data-act="add-goal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva meta</button></div>
+      <div class="goal-grid" id="goal-grid"></div>
+      <div class="empty" id="goal-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div><div class="empty-title">Sin metas todavia</div><div class="empty-sub">Crea una meta con un monto y una fecha limite: cuanto te falta para eso que quieres comprar o lograr.</div><button class="btn btn-primary btn-sm" data-act="add-goal">Crear meta</button></div>
+    </section>
+
+    <section class="view" id="view-tareas">
+      <div class="toolbar"><div class="card-title" style="font-size:14px">Tus tareas</div><button class="btn btn-primary btn-sm" data-act="add-task"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva tarea</button></div>
+      <div class="task-grid" id="task-grid"></div>
+      <div class="empty" id="task-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1.3 1.3L7.5 5"/></svg></div><div class="empty-title">Sin tareas pendientes</div><div class="empty-sub">Agrega una tarea, ponle fecha limite y prioridad para saber que hacer primero.</div><button class="btn btn-primary btn-sm" data-act="add-task">Agregar tarea</button></div>
     </section>
   </div>
 </div>
@@ -481,6 +520,37 @@
   <div class="df"><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary" id="acc-move-save">Guardar</button></div></div>
 </form></dialog>
 
+<dialog id="goal-dialog"><form id="goal-form">
+  <div class="dh"><h2 id="goal-title">Nueva meta</h2><button type="button" class="icon-btn icon-btn-plain" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="db">
+    <input type="hidden" id="goal-id" />
+    <div class="field"><label for="goal-name">Que quieres lograr</label><input type="text" id="goal-name" placeholder="Ej: Laptop nueva" required /></div>
+    <div class="field-row">
+      <div class="field"><label for="goal-target">Monto meta (USD)</label><input type="number" id="goal-target" min="0.01" step="0.01" placeholder="0.00" required /></div>
+      <div class="field"><label for="goal-current">Cuanto llevas ahorrado</label><input type="number" id="goal-current" min="0" step="0.01" placeholder="0.00" /></div>
+    </div>
+    <div class="field"><label for="goal-deadline">Fecha limite</label><input type="date" id="goal-deadline" required /></div>
+    <div class="field"><label for="goal-note">Nota (opcional)</label><input type="text" id="goal-note" placeholder="Ej: para el viaje de diciembre" /></div>
+    <div class="form-err" id="goal-err"></div>
+  </div>
+  <div class="df"><button type="button" class="btn btn-danger" id="goal-del" style="display:none">Eliminar</button><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div></div>
+</form></dialog>
+
+<dialog id="task-dialog"><form id="task-form">
+  <div class="dh"><h2 id="task-title-h">Nueva tarea</h2><button type="button" class="icon-btn icon-btn-plain" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="db">
+    <input type="hidden" id="task-id" />
+    <div class="field"><label for="task-title-input">Tarea</label><input type="text" id="task-title-input" placeholder="Ej: Pagar tarjeta de credito" required /></div>
+    <div class="field-row">
+      <div class="field"><label for="task-due">Fecha limite</label><input type="date" id="task-due" required /></div>
+      <div class="field"><label>Prioridad</label><div class="toggle" id="task-priority"><button type="button" data-value="alta">Alta</button><button type="button" data-value="media" class="on">Media</button><button type="button" data-value="baja">Baja</button></div></div>
+    </div>
+    <div class="field"><label for="task-note">Nota (opcional)</label><input type="text" id="task-note" placeholder="Detalle adicional" /></div>
+    <div class="form-err" id="task-err"></div>
+  </div>
+  <div class="df"><button type="button" class="btn btn-danger" id="task-del" style="display:none">Eliminar</button><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div></div>
+</form></dialog>
+
 <script>
 (function () {
   "use strict";
@@ -535,7 +605,7 @@
   function defaultState() {
     return { movements: [], subscriptions: [], theme: "auto", customCategories: [], accounts: [],
       allocation: { basis: "auto", manualIncome: 0, percentages: Object.assign({}, DEFAULT_PCT) },
-      freedomJar: { total: 0, contributions: [] } };
+      freedomJar: { total: 0, contributions: [] }, goals: [], tasks: [] };
   }
   function hydrate(p) {
     var s = defaultState(); p = p || {};
@@ -550,6 +620,12 @@
     }) : [];
     if (p.allocation) { s.allocation.basis = p.allocation.basis || "auto"; s.allocation.manualIncome = p.allocation.manualIncome || 0; s.allocation.percentages = Object.assign({}, DEFAULT_PCT, p.allocation.percentages || {}); }
     if (p.freedomJar) { s.freedomJar.total = p.freedomJar.total || 0; s.freedomJar.contributions = Array.isArray(p.freedomJar.contributions) ? p.freedomJar.contributions : []; }
+    s.goals = Array.isArray(p.goals) ? p.goals.map(function (g) {
+      return { id: g.id, name: g.name || "", targetAmount: Number(g.targetAmount) || 0, currentAmount: Number(g.currentAmount) || 0, deadline: g.deadline || "", note: g.note || "" };
+    }) : [];
+    s.tasks = Array.isArray(p.tasks) ? p.tasks.map(function (t) {
+      return { id: t.id, title: t.title || "", dueDate: t.dueDate || "", priority: (t.priority === "alta" || t.priority === "baja") ? t.priority : "media", note: t.note || "", done: !!t.done };
+    }) : [];
     return s;
   }
   var state = defaultState();
@@ -619,7 +695,7 @@
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { if (state.theme === "auto") { applyTheme(); renderAll(); } });
 
   /* ---------- Tabs ---------- */
-  var TAB = { resumen: ["Resumen", "Vista general de tus finanzas"], movimientos: ["Movimientos", "Todos tus ingresos y gastos"], distribucion: ["Distribución de ingresos", "Reparte cada ingreso en tus cuentas"], suscripciones: ["Suscripciones", "Cobros recurrentes y próximas fechas"], cuentas: ["Cuentas y tarjetas", "Cuánto tienes y cuánto debes"] };
+  var TAB = { resumen: ["Resumen", "Vista general de tus finanzas"], movimientos: ["Movimientos", "Todos tus ingresos y gastos"], distribucion: ["Distribución de ingresos", "Reparte cada ingreso en tus cuentas"], suscripciones: ["Suscripciones", "Cobros recurrentes y próximas fechas"], cuentas: ["Cuentas y tarjetas", "Cuánto tienes y cuánto debes"], metas: ["Metas de ahorro", "Cuanto te falta para lo que quieres"], tareas: ["Tareas pendientes", "Que hacer primero, con fecha limite"] };
   function setTab(tab) {
     document.querySelectorAll(".nav-item").forEach(function (b) { if (b.getAttribute("data-tab") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
     document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("is-active"); });
@@ -892,7 +968,7 @@
   function syncBasis() { var man = state.allocation.basis === "manual"; basisInput.style.display = man ? "inline-block" : "none"; if (document.activeElement !== basisInput) basisInput.value = state.allocation.manualIncome || ""; }
   basisSeg.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { state.allocation.basis = b.getAttribute("data-value"); save(); syncBasis(); updateAlloc(); }); });
   basisInput.addEventListener("input", function () { state.allocation.manualIncome = parseFloat(basisInput.value) || 0; save(); updateAlloc(); });
-  function allocBase() { return state.allocation.basis === "manual" ? (state.allocation.manualIncome || 0) : monthTotals(new Date().toISOString().slice(0, 7)).income; }
+  function allocBase() { if (state.allocation.basis === "manual") return state.allocation.manualIncome || 0; var t = monthTotals(new Date().toISOString().slice(0, 7)); return Math.max(0, t.income - t.expense); }
   el("reset-pct").addEventListener("click", function () { state.allocation.percentages = Object.assign({}, DEFAULT_PCT); save(); renderJarRows(); updateAlloc(); });
   function renderJarRows() {
     var p = state.allocation.percentages;
@@ -918,6 +994,100 @@
     var n = streak(); el("freedom-streak").innerHTML = '<span class="dot"></span>🔥 ' + streakText(n);
     var log = state.freedomJar.contributions.slice().sort(function (a, b) { return b.date.localeCompare(a.date) || (b.id > a.id ? 1 : -1); }).slice(0, 8);
     el("freedom-log").innerHTML = log.length ? log.map(function (c) { return '<div class="flog"><span>' + humanDate(c.date) + '</span><span class="amt">+' + fmt.format(c.amount) + '</span></div>'; }).join("") : '<div class="card-hint" style="padding:8px 0">Aún sin aportes. Empieza hoy con 1 centavo.</div>';
+  }
+
+  /* ---------- Metas de ahorro ---------- */
+  var goalD = el("goal-dialog");
+  function daysUntil(iso) { var now = new Date(); now.setHours(0, 0, 0, 0); return Math.round((new Date(iso + "T00:00:00") - now) / 86400000); }
+  function deadlineChip(iso) {
+    if (!iso) return "";
+    var days = daysUntil(iso);
+    if (days < 0) return '<span class="chip danger"><span class="dot"></span>Vencida</span>';
+    if (days === 0) return '<span class="chip warning"><span class="dot"></span>Vence hoy</span>';
+    if (days <= 7) return '<span class="chip warning"><span class="dot"></span>Faltan ' + days + ' dia' + (days === 1 ? "" : "s") + '</span>';
+    return '<span class="chip neutral"><span class="dot"></span>' + humanDate(iso) + '</span>';
+  }
+  function openGoal(id) {
+    el("goal-err").textContent = "";
+    if (id) { var g = state.goals.find(function (x) { return x.id === id; }); el("goal-title").textContent = "Editar meta"; el("goal-id").value = g.id; el("goal-name").value = g.name; el("goal-target").value = g.targetAmount; el("goal-current").value = g.currentAmount; el("goal-deadline").value = g.deadline; el("goal-note").value = g.note; el("goal-del").style.display = "inline-flex"; }
+    else { el("goal-title").textContent = "Nueva meta"; el("goal-id").value = ""; el("goal-name").value = ""; el("goal-target").value = ""; el("goal-current").value = ""; el("goal-deadline").value = ""; el("goal-note").value = ""; el("goal-del").style.display = "none"; }
+    goalD.showModal();
+  }
+  document.querySelectorAll('[data-act="add-goal"]').forEach(function (b) { b.addEventListener("click", function () { openGoal(null); }); });
+  el("goal-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = el("goal-name").value.trim(), target = parseFloat(el("goal-target").value), deadline = el("goal-deadline").value;
+    if (!name || !target || target <= 0 || !deadline) { el("goal-err").textContent = "Completa el nombre, el monto meta y la fecha limite."; return; }
+    var current = Math.max(0, parseFloat(el("goal-current").value) || 0);
+    var id = el("goal-id").value, rec = { id: id || uid(), name: name, targetAmount: Math.round(target * 100) / 100, currentAmount: Math.round(current * 100) / 100, deadline: deadline, note: el("goal-note").value.trim() };
+    if (id) state.goals[state.goals.findIndex(function (x) { return x.id === id; })] = rec; else state.goals.push(rec);
+    save(); goalD.close(); renderGoals();
+  });
+  el("goal-del").addEventListener("click", function () { var id = el("goal-id").value; confirmDo("Eliminar meta", "Esta accion no se puede deshacer.", "Eliminar", function () { state.goals = state.goals.filter(function (x) { return x.id !== id; }); save(); goalD.close(); renderGoals(); }); });
+  function addToGoal(id, amount) {
+    if (!amount || amount <= 0) return;
+    var g = state.goals.find(function (x) { return x.id === id; }); if (!g) return;
+    g.currentAmount = Math.round(Math.max(0, g.currentAmount + amount) * 100) / 100;
+    save(); renderGoals();
+  }
+  function renderGoals() {
+    var grid = el("goal-grid"), empty = el("goal-empty");
+    if (!state.goals.length) { grid.innerHTML = ""; empty.style.display = "flex"; return; } empty.style.display = "none";
+    var list = state.goals.slice().sort(function (a, b) { return (a.deadline || "9999").localeCompare(b.deadline || "9999"); });
+    grid.innerHTML = list.map(function (g) {
+      var pct = g.targetAmount > 0 ? Math.min(100, Math.round((g.currentAmount / g.targetAmount) * 100)) : 0;
+      var done = g.currentAmount >= g.targetAmount;
+      var remaining = Math.max(0, g.targetAmount - g.currentAmount);
+      return '<div class="card goal-card"><div class="goal-top"><div class="goal-id"><div class="goal-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div><div><div class="goal-name">' + escapeHtml(g.name) + '</div>' + (g.note ? '<div class="goal-note">' + escapeHtml(g.note) + '</div>' : "") + '</div></div><button class="icon-btn icon-btn-plain" data-edit-goal="' + g.id + '" aria-label="Editar">' + editIcon() + '</button></div>' +
+        '<div class="goal-amt">' + fmt.format(g.currentAmount) + ' <span style="color:var(--ink-muted);font-weight:500">de ' + fmt.format(g.targetAmount) + '</span></div>' +
+        '<div class="goal-track' + (done ? " done" : "") + '"><div class="goal-fill" style="width:' + pct + '%"></div></div>' +
+        '<div class="goal-sub"><span>' + pct + '%' + (done ? " completada" : "") + '</span>' + (done ? '<span class="chip good"><span class="dot"></span>Lograda</span>' : '<span>Faltan ' + fmt.format(remaining) + '</span>') + '</div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between">' + deadlineChip(g.deadline) + '</div>' +
+        '<div class="goal-quick"><button type="button" class="btn btn-sm" data-goal-add="' + g.id + '" data-amt="5">+$5</button><button type="button" class="btn btn-sm" data-goal-add="' + g.id + '" data-amt="20">+$20</button><input type="number" min="0.01" step="0.01" placeholder="Otro monto" data-goal-input="' + g.id + '" /><button type="button" class="btn btn-sm btn-primary" data-goal-custom="' + g.id + '">Agregar</button></div>' +
+      '</div>';
+    }).join("");
+    grid.querySelectorAll("[data-edit-goal]").forEach(function (b) { b.addEventListener("click", function () { openGoal(b.getAttribute("data-edit-goal")); }); });
+    grid.querySelectorAll("[data-goal-add]").forEach(function (b) { b.addEventListener("click", function () { addToGoal(b.getAttribute("data-goal-add"), parseFloat(b.getAttribute("data-amt"))); }); });
+    grid.querySelectorAll("[data-goal-custom]").forEach(function (b) { b.addEventListener("click", function () { var id = b.getAttribute("data-goal-custom"), inp = grid.querySelector('[data-goal-input="' + id + '"]'); addToGoal(id, parseFloat(inp.value)); inp.value = ""; }); });
+  }
+
+  /* ---------- Tareas ---------- */
+  var taskD = el("task-dialog"), taskPriority = el("task-priority"); tSetup(taskPriority);
+  var PRIORITY_RANK = { alta: 0, media: 1, baja: 2 };
+  var PRIORITY_CHIP = { alta: '<span class="chip danger"><span class="dot"></span>Alta</span>', media: '<span class="chip warning"><span class="dot"></span>Media</span>', baja: '<span class="chip neutral"><span class="dot"></span>Baja</span>' };
+  function openTask(id) {
+    el("task-err").textContent = "";
+    if (id) { var t = state.tasks.find(function (x) { return x.id === id; }); el("task-title-h").textContent = "Editar tarea"; el("task-id").value = t.id; el("task-title-input").value = t.title; el("task-due").value = t.dueDate; el("task-note").value = t.note; tSet(taskPriority, t.priority); el("task-del").style.display = "inline-flex"; }
+    else { el("task-title-h").textContent = "Nueva tarea"; el("task-id").value = ""; el("task-title-input").value = ""; el("task-due").value = todayISO(); el("task-note").value = ""; tSet(taskPriority, "media"); el("task-del").style.display = "none"; }
+    taskD.showModal();
+  }
+  document.querySelectorAll('[data-act="add-task"]').forEach(function (b) { b.addEventListener("click", function () { openTask(null); }); });
+  el("task-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var title = el("task-title-input").value.trim(), due = el("task-due").value;
+    if (!title || !due) { el("task-err").textContent = "Completa la tarea y la fecha limite."; return; }
+    var id = el("task-id").value, prev = id ? state.tasks.find(function (x) { return x.id === id; }) : null;
+    var rec = { id: id || uid(), title: title, dueDate: due, priority: tVal(taskPriority), note: el("task-note").value.trim(), done: prev ? prev.done : false };
+    if (id) state.tasks[state.tasks.findIndex(function (x) { return x.id === id; })] = rec; else state.tasks.push(rec);
+    save(); taskD.close(); renderTasks();
+  });
+  el("task-del").addEventListener("click", function () { var id = el("task-id").value; confirmDo("Eliminar tarea", "Esta accion no se puede deshacer.", "Eliminar", function () { state.tasks = state.tasks.filter(function (x) { return x.id !== id; }); save(); taskD.close(); renderTasks(); }); });
+  function toggleTaskDone(id) { var t = state.tasks.find(function (x) { return x.id === id; }); if (!t) return; t.done = !t.done; save(); renderTasks(); }
+  function renderTasks() {
+    var grid = el("task-grid"), empty = el("task-empty");
+    if (!state.tasks.length) { grid.innerHTML = ""; empty.style.display = "flex"; return; } empty.style.display = "none";
+    var list = state.tasks.slice().sort(function (a, b) {
+      if (a.done !== b.done) return a.done ? 1 : -1;
+      var pr = PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority]; if (pr !== 0) return pr;
+      return (a.dueDate || "9999").localeCompare(b.dueDate || "9999");
+    });
+    grid.innerHTML = list.map(function (t) {
+      return '<div class="card task-card' + (t.done ? " done" : "") + '"><div class="task-top"><div class="task-body"><button type="button" class="task-check' + (t.done ? " on" : "") + '" data-toggle-task="' + t.id + '" aria-label="Marcar hecha">' + (t.done ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' : "") + '</button><div><div class="task-title">' + escapeHtml(t.title) + '</div>' + (t.note ? '<div class="task-note">' + escapeHtml(t.note) + '</div>' : "") + '</div></div><button class="icon-btn icon-btn-plain" data-edit-task="' + t.id + '" aria-label="Editar">' + editIcon() + '</button></div>' +
+        '<div class="task-foot">' + PRIORITY_CHIP[t.priority] + deadlineChip(t.dueDate) + '</div>' +
+      '</div>';
+    }).join("");
+    grid.querySelectorAll("[data-edit-task]").forEach(function (b) { b.addEventListener("click", function () { openTask(b.getAttribute("data-edit-task")); }); });
+    grid.querySelectorAll("[data-toggle-task]").forEach(function (b) { b.addEventListener("click", function () { toggleTaskDone(b.getAttribute("data-toggle-task")); }); });
   }
 
   /* ---------- Charts ---------- */
@@ -1038,7 +1208,7 @@
     grid.querySelectorAll("[data-pay]").forEach(function (b) { b.addEventListener("click", function () { markPaid(b.getAttribute("data-pay")); }); });
   }
 
-  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); renderAccounts(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); }
+  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); renderAccounts(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); renderGoals(); renderTasks(); }
 
   /* ============ AUTH ============ */
   var mode = "signin";
