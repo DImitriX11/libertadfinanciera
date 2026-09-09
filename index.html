@@ -252,6 +252,12 @@
   .task-title{font-size:14px;font-weight:600;line-height:1.4;} .task-card.done .task-title{text-decoration:line-through;color:var(--ink-muted);}
   .task-note{font-size:11.5px;color:var(--ink-muted);margin-top:2px;line-height:1.4;}
   .task-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--border-2);padding-top:11px;}
+  /* ---------- Rutina interna ---------- */
+  textarea{font-family:inherit;font-size:13px;padding:9px 11px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--ink);width:100%;resize:vertical;line-height:1.5;}
+  textarea:hover{border-color:color-mix(in srgb,var(--ink) 22%,var(--border));}
+  .routine-block{padding:14px 0;border-top:1px solid var(--border-2);} .routine-block:first-child{border-top:none;padding-top:2px;}
+  .routine-block-title{font-size:10.5px;font-weight:660;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:9px;}
+  .routine-item{display:flex;align-items:center;gap:11px;padding:6px 0;font-size:13px;color:var(--ink);}
   dialog{border:none;border-radius:16px;padding:0;width:min(500px,94vw);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-lg);}
   dialog::backdrop{background:rgba(10,9,8,0.5);backdrop-filter:blur(3px);} dialog[open]{animation:pop .2s cubic-bezier(.2,.7,.2,1);}
   @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98);}to{opacity:1;transform:none;}}
@@ -312,6 +318,8 @@
     <div class="rail-label">Planificacion</div>
     <button class="nav-item" data-tab="metas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Metas</button>
     <button class="nav-item" data-tab="tareas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1.3 1.3L7.5 5"/><path d="M4 12l1.3 1.3L7.5 11"/><path d="M4 18l1.3 1.3L7.5 17"/></svg>Tareas</button>
+    <div class="rail-label">Desarrollo personal</div>
+    <button class="nav-item" data-tab="rutina"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M12 7v5l3.5 2"/></svg>Rutina</button>
     <div class="rail-foot">
       <div class="rail-user"><div class="ava" id="user-ava">•</div><div class="em" id="user-email">—</div></div>
       <button class="btn btn-ghost btn-sm" id="signout-btn" style="justify-content:center">Cerrar sesión</button>
@@ -437,6 +445,34 @@
       <div class="task-grid" id="task-grid"></div>
       <div class="empty" id="task-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1.3 1.3L7.5 5"/></svg></div><div class="empty-title">Sin tareas pendientes</div><div class="empty-sub">Agrega una tarea, ponle fecha limite y prioridad para saber que hacer primero.</div><button class="btn btn-primary btn-sm" data-act="add-task">Agregar tarea</button></div>
     </section>
+
+    <section class="view" id="view-rutina">
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Mi meta actual</div><div class="card-hint">En presente, especifica y medible</div></div></div>
+        <div class="field"><input type="text" id="routine-goal" placeholder="Ej: Cierro este mes con $10,000 en ventas de Importaciones" /></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Creencias limitantes a trabajar</div><div class="card-hint">Una por linea</div></div></div>
+        <textarea id="routine-beliefs" rows="3" placeholder="Ej: el dinero se va tan rapido como llega"></textarea>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Rutina de hoy</div><div class="card-hint" id="routine-date-label">—</div></div>
+          <span class="chip gold" id="routine-streak"><span class="dot"></span>0 dias</span>
+        </div>
+        <div class="routine-block"><div class="routine-block-title">Mañana</div><div id="routine-manana"></div></div>
+        <div class="routine-block">
+          <div class="routine-block-title">Durante el dia</div>
+          <div id="routine-dia-items"></div>
+          <div class="field" style="margin-top:10px"><label for="routine-thought">Pensamiento de escasez de hoy</label><input type="text" id="routine-thought" placeholder="Que pense/senti y en que situacion" /></div>
+          <div class="field" style="margin-top:10px"><label for="routine-action">Accion de negocio de hoy</label><input type="text" id="routine-action" placeholder="Que hice hoy hacia mi meta" /></div>
+        </div>
+        <div class="routine-block"><div class="routine-block-title">Noche</div><div id="routine-noche"></div></div>
+      </div>
+      <div class="toolbar"><div class="card-title" style="font-size:14px">Checkpoints semanales</div><button class="btn btn-primary btn-sm" data-act="add-checkpoint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nuevo checkpoint</button></div>
+      <div class="task-grid" id="checkpoint-grid"></div>
+      <div class="empty" id="checkpoint-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M12 7v5l3.5 2"/></svg></div><div class="empty-title">Sin checkpoints todavia</div><div class="empty-sub">Al cerrar cada semana, registra cuantos dias cumpliste la rutina y que ajuste haces para la siguiente.</div><button class="btn btn-primary btn-sm" data-act="add-checkpoint">Crear checkpoint</button></div>
+    </section>
   </div>
 </div>
 
@@ -551,6 +587,23 @@
   <div class="df"><button type="button" class="btn btn-danger" id="task-del" style="display:none">Eliminar</button><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div></div>
 </form></dialog>
 
+<dialog id="checkpoint-dialog"><form id="checkpoint-form">
+  <div class="dh"><h2 id="checkpoint-title-h">Nuevo checkpoint</h2><button type="button" class="icon-btn icon-btn-plain" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="db">
+    <input type="hidden" id="checkpoint-id" />
+    <div class="field-row">
+      <div class="field"><label for="checkpoint-week">Semana del</label><input type="date" id="checkpoint-week" required /></div>
+      <div class="field"><label for="checkpoint-days">Dias completados (de 7)</label><input type="number" id="checkpoint-days" min="0" max="7" step="1" placeholder="0" /></div>
+    </div>
+    <div class="field"><label for="checkpoint-pattern">Pensamiento de escasez mas repetido</label><input type="text" id="checkpoint-pattern" placeholder="Ej: dudar al momento de cobrar" /></div>
+    <div class="field"><label for="checkpoint-action">Accion de negocio mas dificil que tome</label><input type="text" id="checkpoint-action" placeholder="Ej: subi el precio a un cliente" /></div>
+    <div class="field"><label for="checkpoint-result">Resultado externo concreto que cambio</label><input type="text" id="checkpoint-result" placeholder="Ej: cerre una venta nueva" /></div>
+    <div class="field"><label for="checkpoint-adjustment">Ajuste para la proxima semana</label><input type="text" id="checkpoint-adjustment" placeholder="Una sola cosa a cambiar" /></div>
+    <div class="form-err" id="checkpoint-err"></div>
+  </div>
+  <div class="df"><button type="button" class="btn btn-danger" id="checkpoint-del" style="display:none">Eliminar</button><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div></div>
+</form></dialog>
+
 <script>
 (function () {
   "use strict";
@@ -590,6 +643,16 @@
     { key: "donativo", label: "Donativo", desc: "Dar y devolver", v: "--c6" }
   ];
   var DEFAULT_PCT = { necesidades: 50, inversiones: 10, largoplazo: 10, formacion: 10, diversion: 10, donativo: 10 };
+  var ROUTINE_ITEMS = [
+    { key: "meta", block: "manana", label: "Reescribi mi declaracion de meta a mano" },
+    { key: "visualizacion", block: "manana", label: "Visualizacion 3-5 min de la meta lograda" },
+    { key: "afirmaciones", block: "manana", label: "3 afirmaciones frente al espejo" },
+    { key: "gratitud", block: "manana", label: "3 cosas concretas de gratitud" },
+    { key: "accion", block: "dia", label: "Una accion real hacia mi meta de negocio" },
+    { key: "escasez", block: "dia", label: "Anote un pensamiento de escasez de hoy" },
+    { key: "repaso", block: "noche", label: "Repaso: hoy actue desde la creencia nueva o la vieja" },
+    { key: "relectura", block: "noche", label: "Reli mi declaracion de meta" }
+  ];
   var CAT_VARS = ["--c1","--c2","--c3","--c4","--c5","--c6","--c7","--c8"];
   var fmt = new Intl.NumberFormat("es-EC", { style: "currency", currency: "USD" });
   var monthFmt = new Intl.DateTimeFormat("es-EC", { month: "short" });
@@ -605,7 +668,8 @@
   function defaultState() {
     return { movements: [], subscriptions: [], theme: "auto", customCategories: [], accounts: [],
       allocation: { basis: "auto", manualIncome: 0, percentages: Object.assign({}, DEFAULT_PCT) },
-      freedomJar: { total: 0, contributions: [] }, goals: [], tasks: [] };
+      freedomJar: { total: 0, contributions: [] }, goals: [], tasks: [],
+      routine: { goalStatement: "", beliefs: "", dailyLogs: {}, checkpoints: [] } };
   }
   function hydrate(p) {
     var s = defaultState(); p = p || {};
@@ -626,6 +690,19 @@
     s.tasks = Array.isArray(p.tasks) ? p.tasks.map(function (t) {
       return { id: t.id, title: t.title || "", dueDate: t.dueDate || "", priority: (t.priority === "alta" || t.priority === "baja") ? t.priority : "media", note: t.note || "", done: !!t.done };
     }) : [];
+    if (p.routine) {
+      s.routine.goalStatement = p.routine.goalStatement || "";
+      s.routine.beliefs = p.routine.beliefs || "";
+      s.routine.dailyLogs = (p.routine.dailyLogs && typeof p.routine.dailyLogs === "object") ? p.routine.dailyLogs : {};
+      Object.keys(s.routine.dailyLogs).forEach(function (d) {
+        var l = s.routine.dailyLogs[d] || {};
+        s.routine.dailyLogs[d] = { items: (l.items && typeof l.items === "object") ? l.items : {}, thought: l.thought || "", action: l.action || "" };
+      });
+      s.routine.checkpoints = Array.isArray(p.routine.checkpoints) ? p.routine.checkpoints.map(function (c) {
+        return { id: c.id, week: c.week || "", daysCompleted: Math.max(0, Math.min(7, Number(c.daysCompleted) || 0)),
+          pattern: c.pattern || "", action: c.action || "", result: c.result || "", adjustment: c.adjustment || "" };
+      }) : [];
+    }
     return s;
   }
   var state = defaultState();
@@ -695,7 +772,7 @@
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { if (state.theme === "auto") { applyTheme(); renderAll(); } });
 
   /* ---------- Tabs ---------- */
-  var TAB = { resumen: ["Resumen", "Vista general de tus finanzas"], movimientos: ["Movimientos", "Todos tus ingresos y gastos"], distribucion: ["Distribución de ingresos", "Reparte cada ingreso en tus cuentas"], suscripciones: ["Suscripciones", "Cobros recurrentes y próximas fechas"], cuentas: ["Cuentas y tarjetas", "Cuánto tienes y cuánto debes"], metas: ["Metas de ahorro", "Cuanto te falta para lo que quieres"], tareas: ["Tareas pendientes", "Que hacer primero, con fecha limite"] };
+  var TAB = { resumen: ["Resumen", "Vista general de tus finanzas"], movimientos: ["Movimientos", "Todos tus ingresos y gastos"], distribucion: ["Distribución de ingresos", "Reparte cada ingreso en tus cuentas"], suscripciones: ["Suscripciones", "Cobros recurrentes y próximas fechas"], cuentas: ["Cuentas y tarjetas", "Cuánto tienes y cuánto debes"], metas: ["Metas de ahorro", "Cuanto te falta para lo que quieres"], tareas: ["Tareas pendientes", "Que hacer primero, con fecha limite"], rutina: ["Rutina interna", "Tu practica diaria y checkpoints semanales"] };
   function setTab(tab) {
     document.querySelectorAll(".nav-item").forEach(function (b) { if (b.getAttribute("data-tab") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
     document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("is-active"); });
@@ -1090,6 +1167,111 @@
     grid.querySelectorAll("[data-toggle-task]").forEach(function (b) { b.addEventListener("click", function () { toggleTaskDone(b.getAttribute("data-toggle-task")); }); });
   }
 
+  /* ---------- Rutina interna ---------- */
+  function setIfNotFocused(node, val) { if (document.activeElement !== node) node.value = val; }
+  function todayLog() {
+    var d = todayISO();
+    if (!state.routine.dailyLogs[d]) state.routine.dailyLogs[d] = { items: {}, thought: "", action: "" };
+    return state.routine.dailyLogs[d];
+  }
+  function routineHasAny(iso) {
+    var l = state.routine.dailyLogs[iso];
+    if (!l) return false;
+    return Object.keys(l.items || {}).some(function (k) { return l.items[k]; });
+  }
+  function routineStreak() {
+    var n = 0, cur = new Date(); cur.setHours(0, 0, 0, 0);
+    if (!routineHasAny(cur.toISOString().slice(0, 10))) cur.setDate(cur.getDate() - 1);
+    while (routineHasAny(cur.toISOString().slice(0, 10))) { n++; cur.setDate(cur.getDate() - 1); }
+    return n;
+  }
+  function renderRoutineBlock(blockKey, containerId) {
+    var log = todayLog();
+    var items = ROUTINE_ITEMS.filter(function (it) { return it.block === blockKey; });
+    var c = el(containerId);
+    c.innerHTML = items.map(function (it) {
+      var on = !!log.items[it.key];
+      return '<div class="routine-item"><button type="button" class="task-check' + (on ? " on" : "") + '" data-routine-item="' + it.key + '" aria-label="Marcar hecho">' + (on ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' : "") + '</button><span>' + escapeHtml(it.label) + '</span></div>';
+    }).join("");
+    c.querySelectorAll("[data-routine-item]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var key = b.getAttribute("data-routine-item"), l = todayLog();
+        l.items[key] = !l.items[key]; save(); renderRoutine();
+      });
+    });
+  }
+  el("routine-goal").addEventListener("change", function () { state.routine.goalStatement = el("routine-goal").value.trim(); save(); });
+  el("routine-beliefs").addEventListener("change", function () { state.routine.beliefs = el("routine-beliefs").value; save(); });
+  el("routine-thought").addEventListener("change", function () { todayLog().thought = el("routine-thought").value.trim(); save(); });
+  el("routine-action").addEventListener("change", function () { todayLog().action = el("routine-action").value.trim(); save(); });
+
+  var checkpointD = el("checkpoint-dialog");
+  function openCheckpoint(id) {
+    el("checkpoint-err").textContent = "";
+    if (id) {
+      var c = state.routine.checkpoints.find(function (x) { return x.id === id; });
+      el("checkpoint-title-h").textContent = "Editar checkpoint"; el("checkpoint-id").value = c.id;
+      el("checkpoint-week").value = c.week; el("checkpoint-days").value = c.daysCompleted;
+      el("checkpoint-pattern").value = c.pattern; el("checkpoint-action").value = c.action;
+      el("checkpoint-result").value = c.result; el("checkpoint-adjustment").value = c.adjustment;
+      el("checkpoint-del").style.display = "inline-flex";
+    } else {
+      el("checkpoint-title-h").textContent = "Nuevo checkpoint"; el("checkpoint-id").value = "";
+      el("checkpoint-week").value = todayISO(); el("checkpoint-days").value = "";
+      el("checkpoint-pattern").value = ""; el("checkpoint-action").value = "";
+      el("checkpoint-result").value = ""; el("checkpoint-adjustment").value = "";
+      el("checkpoint-del").style.display = "none";
+    }
+    checkpointD.showModal();
+  }
+  document.querySelectorAll('[data-act="add-checkpoint"]').forEach(function (b) { b.addEventListener("click", function () { openCheckpoint(null); }); });
+  el("checkpoint-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var week = el("checkpoint-week").value;
+    if (!week) { el("checkpoint-err").textContent = "Elige la fecha de inicio de la semana."; return; }
+    var id = el("checkpoint-id").value;
+    var rec = { id: id || uid(), week: week, daysCompleted: Math.max(0, Math.min(7, parseInt(el("checkpoint-days").value, 10) || 0)),
+      pattern: el("checkpoint-pattern").value.trim(), action: el("checkpoint-action").value.trim(),
+      result: el("checkpoint-result").value.trim(), adjustment: el("checkpoint-adjustment").value.trim() };
+    if (id) state.routine.checkpoints[state.routine.checkpoints.findIndex(function (x) { return x.id === id; })] = rec;
+    else state.routine.checkpoints.push(rec);
+    save(); checkpointD.close(); renderCheckpoints();
+  });
+  el("checkpoint-del").addEventListener("click", function () {
+    var id = el("checkpoint-id").value;
+    confirmDo("Eliminar checkpoint", "Esta accion no se puede deshacer.", "Eliminar", function () {
+      state.routine.checkpoints = state.routine.checkpoints.filter(function (x) { return x.id !== id; });
+      save(); checkpointD.close(); renderCheckpoints();
+    });
+  });
+  function renderCheckpoints() {
+    var grid = el("checkpoint-grid"), empty = el("checkpoint-empty");
+    if (!state.routine.checkpoints.length) { grid.innerHTML = ""; empty.style.display = "flex"; return; } empty.style.display = "none";
+    var list = state.routine.checkpoints.slice().sort(function (a, b) { return b.week.localeCompare(a.week); });
+    grid.innerHTML = list.map(function (c) {
+      var cls = c.daysCompleted >= 5 ? "good" : c.daysCompleted >= 3 ? "warning" : "danger";
+      return '<div class="card task-card"><div class="task-top"><div class="task-body"><div><div class="task-title">Semana del ' + humanDate(c.week) + '</div>' + (c.adjustment ? '<div class="task-note">Ajuste: ' + escapeHtml(c.adjustment) + '</div>' : "") + '</div></div><button class="icon-btn icon-btn-plain" data-edit-checkpoint="' + c.id + '" aria-label="Editar">' + editIcon() + '</button></div>' +
+        (c.pattern ? '<div class="task-note">Patron: ' + escapeHtml(c.pattern) + '</div>' : "") +
+        (c.result ? '<div class="task-note">Resultado: ' + escapeHtml(c.result) + '</div>' : "") +
+        '<div class="task-foot"><span class="chip ' + cls + '"><span class="dot"></span>' + c.daysCompleted + '/7 dias</span></div></div>';
+    }).join("");
+    grid.querySelectorAll("[data-edit-checkpoint]").forEach(function (b) { b.addEventListener("click", function () { openCheckpoint(b.getAttribute("data-edit-checkpoint")); }); });
+  }
+  function renderRoutine() {
+    var log = todayLog();
+    setIfNotFocused(el("routine-goal"), state.routine.goalStatement);
+    setIfNotFocused(el("routine-beliefs"), state.routine.beliefs);
+    setIfNotFocused(el("routine-thought"), log.thought);
+    setIfNotFocused(el("routine-action"), log.action);
+    el("routine-date-label").textContent = humanDate(todayISO());
+    renderRoutineBlock("manana", "routine-manana");
+    renderRoutineBlock("dia", "routine-dia-items");
+    renderRoutineBlock("noche", "routine-noche");
+    var n = routineStreak();
+    el("routine-streak").innerHTML = '<span class="dot"></span>🔥 ' + n + (n === 1 ? " dia" : " dias");
+    renderCheckpoints();
+  }
+
   /* ---------- Charts ---------- */
   function sparkline(vals, cv, w, h) {
     if (!vals.length) return "";
@@ -1208,7 +1390,7 @@
     grid.querySelectorAll("[data-pay]").forEach(function (b) { b.addEventListener("click", function () { markPaid(b.getAttribute("data-pay")); }); });
   }
 
-  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); renderAccounts(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); renderGoals(); renderTasks(); }
+  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); renderAccounts(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); renderGoals(); renderTasks(); renderRoutine(); }
 
   /* ============ AUTH ============ */
   var mode = "signin";
