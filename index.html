@@ -320,6 +320,7 @@
     <button class="nav-item" data-tab="tareas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1.3 1.3L7.5 5"/><path d="M4 12l1.3 1.3L7.5 11"/><path d="M4 18l1.3 1.3L7.5 17"/></svg>Tareas</button>
     <div class="rail-label">Desarrollo personal</div>
     <button class="nav-item" data-tab="rutina"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M12 7v5l3.5 2"/></svg>Rutina</button>
+    <button class="nav-item" data-tab="horario"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 3v3M16 3v3"/></svg>Horario</button>
     <div class="rail-foot">
       <div class="rail-user"><div class="ava" id="user-ava">•</div><div class="em" id="user-email">—</div></div>
       <button class="btn btn-ghost btn-sm" id="signout-btn" style="justify-content:center">Cerrar sesión</button>
@@ -473,6 +474,18 @@
       <div class="task-grid" id="checkpoint-grid"></div>
       <div class="empty" id="checkpoint-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M12 7v5l3.5 2"/></svg></div><div class="empty-title">Sin checkpoints todavia</div><div class="empty-sub">Al cerrar cada semana, registra cuantos dias cumpliste la rutina y que ajuste haces para la siguiente.</div><button class="btn btn-primary btn-sm" data-act="add-checkpoint">Crear checkpoint</button></div>
     </section>
+
+    <section class="view" id="view-horario">
+      <div class="toolbar">
+        <div><div class="card-title" style="font-size:14px">Tu horario de trabajo</div><div class="card-hint">Arma y cambia tus bloques cuando quieras</div></div>
+        <div style="display:flex;gap:8px">
+          <select id="sched-day-filter"><option value="todos">Todos los dias</option><option value="diario">Todos los dias (fijo)</option><option value="lunes">Lunes</option><option value="martes">Martes</option><option value="miercoles">Miercoles</option><option value="jueves">Jueves</option><option value="viernes">Viernes</option><option value="sabado">Sabado</option><option value="domingo">Domingo</option></select>
+          <button class="btn btn-primary btn-sm" data-act="add-sched"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nuevo bloque</button>
+        </div>
+      </div>
+      <div class="task-grid" id="sched-grid"></div>
+      <div class="empty" id="sched-empty" style="display:none"><div class="empty-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg></div><div class="empty-title">Sin bloques de horario</div><div class="empty-sub">Agrega tus bloques de trabajo con dia y hora — tu horario, a tu manera.</div><button class="btn btn-primary btn-sm" data-act="add-sched">Agregar bloque</button></div>
+    </section>
   </div>
 </div>
 
@@ -604,6 +617,24 @@
   <div class="df"><button type="button" class="btn btn-danger" id="checkpoint-del" style="display:none">Eliminar</button><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div></div>
 </form></dialog>
 
+<dialog id="sched-dialog"><form id="sched-form">
+  <div class="dh"><h2 id="sched-title-h">Nuevo bloque</h2><button type="button" class="icon-btn icon-btn-plain" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="db">
+    <input type="hidden" id="sched-id" />
+    <div class="field"><label for="sched-title-input">Actividad</label><input type="text" id="sched-title-input" placeholder="Ej: Revisar pedidos con proveedor" required /></div>
+    <div class="field-row">
+      <div class="field"><label for="sched-day">Dia</label><select id="sched-day"><option value="diario">Todos los dias</option><option value="lunes">Lunes</option><option value="martes">Martes</option><option value="miercoles">Miercoles</option><option value="jueves">Jueves</option><option value="viernes">Viernes</option><option value="sabado">Sabado</option><option value="domingo">Domingo</option></select></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label for="sched-start">Hora inicio</label><input type="time" id="sched-start" required /></div>
+      <div class="field"><label for="sched-end">Hora fin (opcional)</label><input type="time" id="sched-end" /></div>
+    </div>
+    <div class="field"><label for="sched-note">Nota (opcional)</label><input type="text" id="sched-note" placeholder="Detalle adicional" /></div>
+    <div class="form-err" id="sched-err"></div>
+  </div>
+  <div class="df"><button type="button" class="btn btn-danger" id="sched-del" style="display:none">Eliminar</button><div class="right"><button type="button" class="btn" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div></div>
+</form></dialog>
+
 <script>
 (function () {
   "use strict";
@@ -653,6 +684,8 @@
     { key: "repaso", block: "noche", label: "Repaso: hoy actue desde la creencia nueva o la vieja" },
     { key: "relectura", block: "noche", label: "Reli mi declaracion de meta" }
   ];
+  var SCHED_DAYS = ["diario", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
+  var SCHED_DAY_LABELS = { diario: "Todos los dias", lunes: "Lunes", martes: "Martes", miercoles: "Miercoles", jueves: "Jueves", viernes: "Viernes", sabado: "Sabado", domingo: "Domingo" };
   var CAT_VARS = ["--c1","--c2","--c3","--c4","--c5","--c6","--c7","--c8"];
   var fmt = new Intl.NumberFormat("es-EC", { style: "currency", currency: "USD" });
   var monthFmt = new Intl.DateTimeFormat("es-EC", { month: "short" });
@@ -669,7 +702,7 @@
     return { movements: [], subscriptions: [], theme: "auto", customCategories: [], accounts: [],
       allocation: { basis: "auto", manualIncome: 0, percentages: Object.assign({}, DEFAULT_PCT) },
       freedomJar: { total: 0, contributions: [] }, goals: [], tasks: [],
-      routine: { goalStatement: "", beliefs: "", dailyLogs: {}, checkpoints: [] } };
+      routine: { goalStatement: "", beliefs: "", dailyLogs: {}, checkpoints: [] }, schedule: [] };
   }
   function hydrate(p) {
     var s = defaultState(); p = p || {};
@@ -703,6 +736,9 @@
           pattern: c.pattern || "", action: c.action || "", result: c.result || "", adjustment: c.adjustment || "" };
       }) : [];
     }
+    s.schedule = Array.isArray(p.schedule) ? p.schedule.map(function (b) {
+      return { id: b.id, day: SCHED_DAYS.indexOf(b.day) !== -1 ? b.day : "diario", start: b.start || "00:00", end: b.end || "", title: b.title || "", note: b.note || "" };
+    }) : [];
     return s;
   }
   var state = defaultState();
@@ -772,7 +808,7 @@
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { if (state.theme === "auto") { applyTheme(); renderAll(); } });
 
   /* ---------- Tabs ---------- */
-  var TAB = { resumen: ["Resumen", "Vista general de tus finanzas"], movimientos: ["Movimientos", "Todos tus ingresos y gastos"], distribucion: ["Distribución de ingresos", "Reparte cada ingreso en tus cuentas"], suscripciones: ["Suscripciones", "Cobros recurrentes y próximas fechas"], cuentas: ["Cuentas y tarjetas", "Cuánto tienes y cuánto debes"], metas: ["Metas de ahorro", "Cuanto te falta para lo que quieres"], tareas: ["Tareas pendientes", "Que hacer primero, con fecha limite"], rutina: ["Rutina interna", "Tu practica diaria y checkpoints semanales"] };
+  var TAB = { resumen: ["Resumen", "Vista general de tus finanzas"], movimientos: ["Movimientos", "Todos tus ingresos y gastos"], distribucion: ["Distribución de ingresos", "Reparte cada ingreso en tus cuentas"], suscripciones: ["Suscripciones", "Cobros recurrentes y próximas fechas"], cuentas: ["Cuentas y tarjetas", "Cuánto tienes y cuánto debes"], metas: ["Metas de ahorro", "Cuanto te falta para lo que quieres"], tareas: ["Tareas pendientes", "Que hacer primero, con fecha limite"], rutina: ["Rutina interna", "Tu practica diaria y checkpoints semanales"], horario: ["Horario de trabajo", "Tu rutina personal de trabajo, con horarios"] };
   function setTab(tab) {
     document.querySelectorAll(".nav-item").forEach(function (b) { if (b.getAttribute("data-tab") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
     document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("is-active"); });
@@ -1272,6 +1308,58 @@
     renderCheckpoints();
   }
 
+  /* ---------- Horario de trabajo ---------- */
+  var schedD = el("sched-dialog");
+  function openSched(id) {
+    el("sched-err").textContent = "";
+    if (id) {
+      var b = state.schedule.find(function (x) { return x.id === id; });
+      el("sched-title-h").textContent = "Editar bloque"; el("sched-id").value = b.id;
+      el("sched-title-input").value = b.title; el("sched-day").value = b.day;
+      el("sched-start").value = b.start; el("sched-end").value = b.end; el("sched-note").value = b.note;
+      el("sched-del").style.display = "inline-flex";
+    } else {
+      el("sched-title-h").textContent = "Nuevo bloque"; el("sched-id").value = "";
+      el("sched-title-input").value = ""; el("sched-day").value = "diario";
+      el("sched-start").value = ""; el("sched-end").value = ""; el("sched-note").value = "";
+      el("sched-del").style.display = "none";
+    }
+    schedD.showModal();
+  }
+  document.querySelectorAll('[data-act="add-sched"]').forEach(function (b) { b.addEventListener("click", function () { openSched(null); }); });
+  el("sched-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var title = el("sched-title-input").value.trim(), start = el("sched-start").value;
+    if (!title || !start) { el("sched-err").textContent = "Completa la actividad y la hora de inicio."; return; }
+    var id = el("sched-id").value;
+    var rec = { id: id || uid(), title: title, day: el("sched-day").value, start: start, end: el("sched-end").value, note: el("sched-note").value.trim() };
+    if (id) state.schedule[state.schedule.findIndex(function (x) { return x.id === id; })] = rec;
+    else state.schedule.push(rec);
+    save(); schedD.close(); renderSchedule();
+  });
+  el("sched-del").addEventListener("click", function () {
+    var id = el("sched-id").value;
+    confirmDo("Eliminar bloque", "Esta accion no se puede deshacer.", "Eliminar", function () {
+      state.schedule = state.schedule.filter(function (x) { return x.id !== id; });
+      save(); schedD.close(); renderSchedule();
+    });
+  });
+  el("sched-day-filter").addEventListener("change", renderSchedule);
+  function renderSchedule() {
+    var grid = el("sched-grid"), empty = el("sched-empty"), filter = el("sched-day-filter").value;
+    var list = state.schedule.filter(function (b) { return filter === "todos" || b.day === filter; })
+      .slice().sort(function (a, b) {
+        var da = SCHED_DAYS.indexOf(a.day), db = SCHED_DAYS.indexOf(b.day);
+        return da !== db ? da - db : a.start.localeCompare(b.start);
+      });
+    if (!list.length) { grid.innerHTML = ""; empty.style.display = "flex"; return; } empty.style.display = "none";
+    grid.innerHTML = list.map(function (b) {
+      var time = b.start + (b.end ? "–" + b.end : "");
+      return '<div class="card task-card"><div class="task-top"><div class="task-body"><div><div class="task-title">' + escapeHtml(b.title) + '</div><div class="task-note">' + SCHED_DAY_LABELS[b.day] + ' · ' + time + '</div>' + (b.note ? '<div class="task-note">' + escapeHtml(b.note) + '</div>' : "") + '</div></div><button class="icon-btn icon-btn-plain" data-edit-sched="' + b.id + '" aria-label="Editar">' + editIcon() + '</button></div></div>';
+    }).join("");
+    grid.querySelectorAll("[data-edit-sched]").forEach(function (b) { b.addEventListener("click", function () { openSched(b.getAttribute("data-edit-sched")); }); });
+  }
+
   /* ---------- Charts ---------- */
   function sparkline(vals, cv, w, h) {
     if (!vals.length) return "";
@@ -1390,7 +1478,7 @@
     grid.querySelectorAll("[data-pay]").forEach(function (b) { b.addEventListener("click", function () { markPaid(b.getAttribute("data-pay")); }); });
   }
 
-  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); renderAccounts(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); renderGoals(); renderTasks(); renderRoutine(); }
+  function renderAll() { rebuildCategories(); refreshCategorySelects(); renderResumen(); renderMovements(); renderSubs(); renderAccounts(); syncBasis(); renderJarRows(); updateAlloc(); renderFreedom(); renderGoals(); renderTasks(); renderRoutine(); renderSchedule(); }
 
   /* ============ AUTH ============ */
   var mode = "signin";
