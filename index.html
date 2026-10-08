@@ -344,7 +344,13 @@
     <section class="view is-active" id="view-resumen">
       <div class="hero">
         <div class="hero-left">
-          <div class="hero-eyebrow"><span class="live"></span>Balance total</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+            <div class="hero-eyebrow"><span class="live"></span><span id="hero-balance-lbl">Balance total</span></div>
+            <div class="seg" id="balance-view-seg" style="padding:2px">
+              <button data-value="total" class="on" style="padding:4px 10px;font-size:10.5px">Total</button>
+              <button data-value="mensual" style="padding:4px 10px;font-size:10.5px">Mensual</button>
+            </div>
+          </div>
           <div class="hero-value" id="hero-balance">$0.00</div>
           <div class="hero-meta" id="hero-meta"><span>Aún no registras movimientos.</span></div>
           <div class="hero-spark" id="hero-spark"></div>
@@ -699,7 +705,7 @@
   function humanDate(iso) { return new Date(iso + "T00:00:00").toLocaleDateString("es-EC", { day: "2-digit", month: "short", year: "numeric" }); }
 
   function defaultState() {
-    return { movements: [], subscriptions: [], theme: "auto", customCategories: [], accounts: [],
+    return { movements: [], subscriptions: [], theme: "auto", balanceView: "total", customCategories: [], accounts: [],
       allocation: { basis: "auto", manualIncome: 0, percentages: Object.assign({}, DEFAULT_PCT) },
       freedomJar: { total: 0, contributions: [] }, goals: [], tasks: [],
       routine: { goalStatement: "", beliefs: "", dailyLogs: {}, checkpoints: [] }, schedule: [] };
@@ -709,6 +715,7 @@
     s.movements = Array.isArray(p.movements) ? p.movements : [];
     s.subscriptions = Array.isArray(p.subscriptions) ? p.subscriptions : [];
     s.theme = p.theme || "auto";
+    s.balanceView = p.balanceView === "mensual" ? "mensual" : "total";
     s.customCategories = Array.isArray(p.customCategories) ? p.customCategories : [];
     s.accounts = Array.isArray(p.accounts) ? p.accounts.map(function (a) {
       return { id: a.id, type: a.type === "banco" ? "banco" : "tarjeta", name: a.name || "", issuer: a.issuer || "",
@@ -887,6 +894,15 @@
   el("month-prev").addEventListener("click", function () { shiftViewMonth(-1); renderResumen(); });
   el("month-next").addEventListener("click", function () { shiftViewMonth(1); renderResumen(); });
   el("month-today").addEventListener("click", function () { viewMonth = new Date().toISOString().slice(0, 7); renderResumen(); });
+  el("balance-view-seg").querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.classList.contains("on")) return;
+      el("balance-view-seg").querySelectorAll("button").forEach(function (x) { x.classList.remove("on"); });
+      b.classList.add("on");
+      state.balanceView = b.getAttribute("data-value");
+      save(); renderResumen();
+    });
+  });
 
   /* ---------- Gestión de categorías ---------- */
   function refreshCategorySelects() {
@@ -1386,10 +1402,13 @@
     el("kpi-income-lbl").textContent = cur ? "Ingresos este mes" : "Ingresos · " + monthLabel(viewMonth);
     el("kpi-expense-lbl").textContent = cur ? "Gastos este mes" : "Gastos · " + monthLabel(viewMonth);
     el("cat-chart-hint").textContent = cur ? "Este mes" : monthLabel(viewMonth);
-    // --- Balance (siempre total, histórico) ---
-    var bal = 0; state.movements.forEach(function (m) { bal += m.type === "ingreso" ? m.amount : -m.amount; });
-    var hb = el("hero-balance"); hb.textContent = fmt.format(bal); hb.classList.toggle("neg", bal < 0);
+    // --- Balance (total histórico o del mes seleccionado, según balanceView) ---
+    var totalBal = 0; state.movements.forEach(function (m) { totalBal += m.type === "ingreso" ? m.amount : -m.amount; });
     var net = t.income - t.expense;
+    var bal = state.balanceView === "mensual" ? net : totalBal;
+    var hb = el("hero-balance"); hb.textContent = fmt.format(bal); hb.classList.toggle("neg", bal < 0);
+    el("hero-balance-lbl").textContent = state.balanceView === "mensual" ? ("Balance · " + (cur ? "este mes" : mShort)) : "Balance total";
+    el("balance-view-seg").querySelectorAll("button").forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-value") === state.balanceView); });
     el("hero-meta").innerHTML = state.movements.length ? '<span><b>' + state.movements.length + '</b> movimiento' + (state.movements.length === 1 ? "" : "s") + ' en total</span><span>Neto de ' + (cur ? "este mes" : monthLabel(viewMonth)) + ' <b style="color:var(--' + (net >= 0 ? "good" : "danger") + ')">' + (net >= 0 ? "+" : "") + fmt.format(net) + '</b></span>' : '<span>Aún no registras movimientos.</span>';
     var months = monthsEndingAt(viewMonth), before = 0, firstYm = months[0].ym;
     state.movements.forEach(function (m) { if (ymOf(m.date) < firstYm) before += m.type === "ingreso" ? m.amount : -m.amount; });
