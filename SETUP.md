@@ -1,5 +1,13 @@
 # Libertad Financiera — Guía de instalación
 
+> ## ✅ Modo actual: SIN usuario ni contraseña (modo local)
+> La app ya no pide cuenta. Tus datos se guardan **en el navegador de este dispositivo**.
+> - **Haz una copia de seguridad** con el botón **Exportar copia** (menú izquierdo). Para recuperarla: **Importar copia**.
+> - Los datos **no se sincronizan** entre celular y computadora en este modo.
+> - ¿Por qué? Los proyectos gratis de Supabase se **pausan tras 7 días sin uso** y había que restaurarlos a mano.
+> - Para volver a la nube (login + sincronización): en `index.html` cambia `window.LF_MODE = "local"` por `"nube"`
+>   y sigue las partes de abajo. La guía de abajo solo aplica al modo nube.
+
 Tu dashboard como **app real**: entras con correo y contraseña, y tus datos se
 sincronizan solos en **todos tus dispositivos** (compu, celular, tablet).
 

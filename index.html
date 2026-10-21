@@ -11,6 +11,12 @@
      de exponer: tus datos están protegidos por RLS + login.
      ============================================================ -->
 <script>
+  /* MODO DE LA APP
+     "local" = SIN usuario ni contraseña. Tus datos se guardan en ESTE dispositivo (navegador)
+               y puedes exportar/importar una copia desde el menú. No depende de Supabase.
+     "nube"  = como antes: login con correo y contraseña + sincronización con Supabase. */
+  window.LF_MODE = "local";
+
   window.SUPABASE_CONFIG = {
     url: "https://odfpmqcpcscvujuywiex.supabase.co",
     anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kZnBtcWNwY3NjdnVqdXl3aWV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MDA1MjYsImV4cCI6MjA5OTk3NjUyNn0.FMKGHwSFVq0jxSth98UpxRC7iHZhrtSocmusAzz76I4"
@@ -324,7 +330,9 @@
     <div class="rail-foot">
       <div class="rail-user"><div class="ava" id="user-ava">•</div><div class="em" id="user-email">—</div></div>
       <button class="btn btn-ghost btn-sm" id="signout-btn" style="justify-content:center">Cerrar sesión</button>
-      <div class="rail-note">Se sincroniza solo. Tus datos están en la nube, seguros y privados.</div>
+      <button class="btn btn-ghost btn-sm" id="import-btn" style="justify-content:center;display:none">Importar copia</button>
+      <input type="file" id="import-file" accept="application/json,.json" hidden />
+      <div class="rail-note" id="rail-note">Se sincroniza solo. Tus datos están en la nube, seguros y privados.</div>
     </div>
   </aside>
 
@@ -776,7 +784,7 @@
   }
   function save() {
     saveLocal();
-    if (!sb || !user) return;
+    if (!sb || !user) { if (window.LF_MODE === "local" && typeof setLocalStatus === "function") setLocalStatus(); return; }
     setSync("saving");
     clearTimeout(syncTimer);
     syncTimer = setTimeout(pushCloud, 700);
@@ -1563,6 +1571,56 @@
     el("auth-email").value = ""; el("auth-pass").value = ""; setMode("signin");
     state = defaultState();
   }
+
+  /* ============ MODO LOCAL (sin login) ============ */
+  var LOCAL = window.LF_MODE === "local";
+  function lastExportMs() { try { return Number(localStorage.getItem("lf-last-export")) || 0; } catch (e) { return 0; } }
+  function exportBackup() {
+    var blob = new Blob([JSON.stringify(state, null, 1)], { type: "application/json" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = "libertad-financiera-copia-" + todayISO() + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+    try { localStorage.setItem("lf-last-export", String(Date.now())); } catch (e) {}
+    setLocalStatus();
+  }
+  function importBackup(file) {
+    var r = new FileReader();
+    r.onload = function () {
+      try {
+        var p = JSON.parse(r.result);
+        var data = (p && p.data && !p.movements) ? p.data : p;   // acepta la copia de la app o la fila de Supabase (user_data)
+        if (!data || typeof data !== "object") throw new Error("vacío");
+        if (!confirm("Esto reemplaza lo que tienes ahora en este dispositivo. ¿Continuar?")) return;
+        state = hydrate(data); saveLocal(); applyTheme(); renderAll(); setLocalStatus();
+        alert("Copia importada correctamente.");
+      } catch (e) { alert("Ese archivo no es una copia válida de Libertad Financiera."); }
+    };
+    r.readAsText(file);
+  }
+  function setLocalStatus() {
+    var s = el("sync"), t = el("sync-txt"), days = lastExportMs() ? (Date.now() - lastExportMs()) / 86400000 : null;
+    if (days === null || days > 14) { s.className = "sync err"; t.textContent = "Haz una copia de seguridad"; }
+    else { s.className = "sync"; t.textContent = "Guardado en este dispositivo"; }
+  }
+  function enterLocal() {
+    user = { id: "local", email: "Este dispositivo" };
+    hide(el("boot")); hide(el("auth-screen")); show(el("app"));
+    el("user-email").textContent = "Solo en este dispositivo"; el("user-ava").textContent = "•";
+    el("signout-btn").textContent = "Exportar copia"; el("signout-btn").addEventListener("click", exportBackup);
+    show(el("import-btn")); el("import-btn").style.display = "";
+    el("import-btn").addEventListener("click", function () { el("import-file").click(); });
+    el("import-file").addEventListener("change", function () { if (this.files[0]) importBackup(this.files[0]); this.value = ""; });
+    el("rail-note").textContent = "Sin usuario ni contraseña. Tus datos viven en este dispositivo: exporta una copia de vez en cuando.";
+    var cached = loadLocal();
+    if (!cached) { // primera vez en modo local: recupera lo que ya tenía este navegador de cuando usabas login
+      var best = null;
+      try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf("lf-cache-") === 0 && k !== "lf-cache-local") { var raw = localStorage.getItem(k); if (raw && (!best || raw.length > best.length)) best = raw; } } } catch (e) {}
+      if (best) { try { cached = hydrate(JSON.parse(best)); } catch (e) {} }
+    }
+    state = cached || defaultState(); saveLocal(); applyTheme(); renderAll(); setLocalStatus();
+  }
+  if (LOCAL) { enterLocal(); return; }
 
   if (!configured) { showConfigWarning(); return; }
   try {
